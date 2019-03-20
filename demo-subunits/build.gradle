@@ -18,6 +18,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    //签名信息
+    signingConfigs {
+        release {
+            storeFile file("../key.jks")
+            storePassword "gdgyun"
+            keyAlias "hhzl"
+            keyPassword "gdgyun"
+        }
+    }
 }
 
 dependencies {

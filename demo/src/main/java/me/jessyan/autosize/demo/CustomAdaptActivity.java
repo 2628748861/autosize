@@ -78,6 +78,6 @@ public class CustomAdaptActivity extends AppCompatActivity implements CustomAdap
      */
     @Override
     public float getSizeInDp() {
-        return 667;
+        return 640;
     }
 }

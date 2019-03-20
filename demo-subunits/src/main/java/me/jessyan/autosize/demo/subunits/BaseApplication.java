@@ -71,7 +71,7 @@ public class BaseApplication extends Application {
         //最后将 dp 全部改为副单位后, 再使用 UnitsManager.setSupportDP(false); 将 dp 的支持关闭, 彻底隔离修改 density 所造成的不良影响
         //如果项目完全使用副单位, 则可以直接以像素为单位填写 AndroidManifest 中需要填写的设计图尺寸, 不需再把像素转化为 dp
         AutoSizeConfig.getInstance().getUnitsManager()
-                .setSupportDP(false)
+                .setSupportDP(true)
 
                 //当使用者想将旧项目从主单位过渡到副单位, 或从副单位过渡到主单位时
                 //因为在使用主单位时, 建议在 AndroidManifest 中填写设计图的 dp 尺寸, 比如 360 * 640
