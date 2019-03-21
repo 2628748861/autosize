@@ -206,7 +206,7 @@ public final class AutoSizeConfig {
         mScreenWidth = screenSize[0];
         mScreenHeight = screenSize[1];
         mStatusBarHeight = ScreenUtils.getStatusBarHeight();
-        LogUtils.d("designWidthInDp = " + mDesignWidthInDp + ", designHeightInDp = " + mDesignHeightInDp + ", screenWidth = " + mScreenWidth + ", screenHeight = " + mScreenHeight);
+        LogUtils.d("designWidthInDp = " + mDesignWidthInDp + ", designHeightInDp = " + mDesignHeightInDp + ", screenWidth = " + mScreenWidth + ", screenHeight = " + mScreenHeight +",mStatusBarHeight ="+mStatusBarHeight);
 
         mInitDensity = displayMetrics.density;
         mInitDensityDpi = displayMetrics.densityDpi;
