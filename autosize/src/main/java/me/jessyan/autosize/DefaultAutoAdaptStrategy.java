@@ -69,9 +69,9 @@ public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
        // LogUtils.d("是否是customD的实例:"+(target instanceof CustomAdapt));
         //getInterfaces(target);
         //如果 target 实现 CustomAdapt 接口表示该 target 想自定义一些用于适配的参数, 从而改变最终的适配效果
-        if (hasInterfaces(target)) {
+        if (target instanceof me.jessyan.autosize.internal.CustomAdapt) {
             LogUtils.d(String.format(Locale.ENGLISH, "%s implemented by %s!", target.getClass().getName(), CustomAdapt.class.getName()));
-            AutoSize.autoConvertDensityOfCustomAdapt(activity, (CustomAdapt) target);
+            AutoSize.autoConvertDensityOfCustomAdapt(activity, (me.jessyan.autosize.internal.CustomAdapt) target);
         } else {
             LogUtils.d(String.format(Locale.ENGLISH, "%s used the global configuration.", target.getClass().getName()));
             AutoSize.autoConvertDensityOfGlobal(activity);
