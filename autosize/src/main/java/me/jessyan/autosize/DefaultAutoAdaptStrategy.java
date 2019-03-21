@@ -17,6 +17,7 @@ package me.jessyan.autosize;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -64,6 +65,8 @@ public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
             return;
         }
 
+
+        getInterfaces(target);
         //如果 target 实现 CustomAdapt 接口表示该 target 想自定义一些用于适配的参数, 从而改变最终的适配效果
         if (target instanceof CustomAdapt) {
             LogUtils.d(String.format(Locale.ENGLISH, "%s implemented by %s!", target.getClass().getName(), CustomAdapt.class.getName()));
@@ -71,6 +74,15 @@ public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
         } else {
             LogUtils.d(String.format(Locale.ENGLISH, "%s used the global configuration.", target.getClass().getName()));
             AutoSize.autoConvertDensityOfGlobal(activity);
+        }
+    }
+
+    private void getInterfaces(Object target)
+    {
+        Class<?> clasz=target.getClass();
+        Class<?> interfaces[] =clasz.getInterfaces();//获得Dog所实现的所有接口
+        for (Class<?> inte : interfaces) {//打印
+            LogUtils.d("类名："+clasz+",接口:"+inte);
         }
     }
 }

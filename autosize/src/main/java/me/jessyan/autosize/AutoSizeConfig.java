@@ -170,7 +170,7 @@ public final class AutoSizeConfig {
      *
      * @param application {@link Application}
      */
-    AutoSizeConfig init(Application application) {
+    public AutoSizeConfig init(Application application) {
         return init(application, true, null);
     }
 
