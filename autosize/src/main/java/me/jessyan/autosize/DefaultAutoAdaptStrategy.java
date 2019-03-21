@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 import me.jessyan.autosize.external.ExternalAdaptInfo;
@@ -69,26 +70,52 @@ public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
        // LogUtils.d("是否是customD的实例:"+(target instanceof CustomAdapt));
         //getInterfaces(target);
         //如果 target 实现 CustomAdapt 接口表示该 target 想自定义一些用于适配的参数, 从而改变最终的适配效果
-        if (target instanceof me.jessyan.autosize.internal.CustomAdapt) {
+        CustomAdapt customAdapt=hasInterfaces(target);
+        if (customAdapt!=null) {
             LogUtils.d(String.format(Locale.ENGLISH, "%s implemented by %s!", target.getClass().getName(), CustomAdapt.class.getName()));
-            AutoSize.autoConvertDensityOfCustomAdapt(activity, (me.jessyan.autosize.internal.CustomAdapt) target);
+            AutoSize.autoConvertDensityOfCustomAdapt(activity, customAdapt);
         } else {
             LogUtils.d(String.format(Locale.ENGLISH, "%s used the global configuration.", target.getClass().getName()));
             AutoSize.autoConvertDensityOfGlobal(activity);
         }
     }
 
-    private boolean hasInterfaces(Object target)
+    private CustomAdapt hasInterfaces(Object target)
     {
-        Class<?> clasz=target.getClass();
-        Class<?> interfaces[] =clasz.getInterfaces();//获得Dog所实现的所有接口
-        for (Class<?> inte : interfaces) {//打印
-            LogUtils.d("类名："+clasz+",接口:"+inte+",boolean:"+(inte.getName().equals(CustomAdapt.class.getName())));
-            if(inte.getName().equals(CustomAdapt.class.getName()))
-            {
-                return true;
+        try
+        {
+            Class<?> clasz=target.getClass();
+            Class<?> interfaces[] =clasz.getInterfaces();//获得Dog所实现的所有接口
+            for (Class<?> inte : interfaces) {//打印
+                LogUtils.d("类名："+clasz+",接口:"+inte+",boolean:"+(inte.getName().equals(CustomAdapt.class.getName())));
+                if(inte.getName().equals(CustomAdapt.class.getName()))
+                {
+                    Method method=inte.getMethod("isBaseOnWidth",null);
+                    Method method1=inte.getMethod("getSizeInDp",null);
+                    final boolean isBaseOnWidth=(Boolean) method.invoke(target,null);
+                    final float sizeInDp=(Float) method1.invoke(target,null);
+                    LogUtils.d("isBaseOnWidth:"+isBaseOnWidth+",sizeInDp:"+sizeInDp);
+
+                    CustomAdapt customAdapt=new CustomAdapt() {
+                        @Override
+                        public boolean isBaseOnWidth() {
+                            return isBaseOnWidth;
+                        }
+
+                        @Override
+                        public float getSizeInDp() {
+                            return sizeInDp;
+                        }
+                    };
+
+                    return customAdapt;
+                }
             }
+        }catch ( Exception e)
+        {
+            e.printStackTrace();
         }
-        return false;
+
+        return null;
     }
 }
